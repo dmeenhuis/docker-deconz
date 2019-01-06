@@ -2,8 +2,6 @@ sudo: required
 services:
   - docker
 language: bash
-before_deploy:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 script:
   - docker build -t "dmeenhuis/docker-deconz:amd64" ./amd64
   - docker build -t "dmeenhuis/hassio-addon-deconz-amd64" ./amd64-hassio-addon
@@ -11,6 +9,7 @@ after_success:
   - >
     if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       VERSION=$(cat .VERSION)
+      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       docker tag dmeenhuis/docker-deconz:amd64 dmeenhuis/deconz:amd64-$VERSION
       docker push dmeenhuis/docker-deconz:amd64
       docker push dmeenhuis/docker-deconz:amd64-$VERSION
