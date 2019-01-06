@@ -29,6 +29,7 @@ RUN apt-get update && \
         libqt5websockets5 \
         libqt5widgets5 \
         sqlite3 \
+        lsof \
         wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
